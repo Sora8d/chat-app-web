@@ -1,5 +1,5 @@
 import { storageUsers, userProfile } from "../../../../../utils/interfaces";
-import ContactsCard from "../../ContactsCard/ContactsCard";
+import ContactsCard from "../../../../common/contactsCard/ContactsCard";
 
 interface leaveBackdropProp {
     turnbackdropoff: () => void

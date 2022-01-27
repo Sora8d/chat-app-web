@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
+import {searchcontactContext} from "../../../../common/searchContact/contactsContext";
 import { poblateSelectedContactsCard } from "./common";
 import { CreateConversationContext } from "./CreateConversationContext";
 
 import "./style.scss";
 
 const GroupConversationForm = () =>{
-    const SelectedCtx = useContext(CreateConversationContext)
+    const CreateConvoCtx = useContext(CreateConversationContext)
+    const SelectedCtx = useContext(searchcontactContext)
 
     return (
         <div className="SearchContact">
             <div>
                 <p><label>Name</label></p>
                 <p><input type="text" placeholder="title" id="groupName" required/></p>
-                {SelectedCtx.error != null && <p>{SelectedCtx.error.message}</p>}
+                {CreateConvoCtx.error != null && <p>{CreateConvoCtx.error.message}</p>}
                
                 <p><label>Group Image</label></p>
                 <p><input type="text" placeholder="imagesite.site/image.img" id="groupImage"/></p>

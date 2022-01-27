@@ -15,4 +15,5 @@ function BackDrop({turnbackdropoff}:backdropProps) {
     )
 }
 
+export type { backdropProps }
 export default BackDrop

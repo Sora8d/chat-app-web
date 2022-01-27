@@ -1,5 +1,5 @@
 import internal from "stream";
-import { message, conversationWParticipants, userProfile, storageUsers } from "../interfaces";
+import { message, conversationWParticipants, userProfile, storageUsers, userConversation, conversation } from "../interfaces";
 
 interface uuid{
     uuid: string
@@ -75,12 +75,18 @@ interface KickParticipantRequest{
   conversation: uuid
 }
 
+interface getConversationsUndefinedAllowed{
+  conversation: conversation, user_conversation: userConversation, participants: userConversation[] | undefined, unread_messages: number
+}
+
 interface requestManagerProp<T> {
   data: T,
   response: apiResponseFix
 }
 
 type getMessagesResponse = requestManagerProp<message[]>
+
+type getConversationResponseAllowUndefined = requestManagerProp<getConversationsUndefinedAllowed[]>
 
 type getConversationsResponse = requestManagerProp<conversationWParticipants[]>
 
@@ -92,4 +98,4 @@ type getStorageUsersResponse = requestManagerProp<storageUsers>
 
 type KickParticipantResponse = requestManagerProp<undefined>
 
-export type {UuidResponse, SendMessageInterface, AuthLoginResponse as AuthInfoInterface, AuthInfo, uuid, apiResponse, apiResponseFix, AuthRegisterResponse,LoginProp, RegisterProp, NewConversationInterface, requestManagerProp, getMessagesResponse, getConversationsResponse, getUserProfilesResponse, getStorageUsersResponse, KickParticipantRequest, KickParticipantResponse}
+export type {UuidResponse, SendMessageInterface, AuthLoginResponse as AuthInfoInterface, AuthInfo, uuid, apiResponse, apiResponseFix, AuthRegisterResponse,LoginProp, RegisterProp, NewConversationInterface, requestManagerProp, getMessagesResponse, getConversationsResponse, getConversationResponseAllowUndefined, getUserProfilesResponse, getStorageUsersResponse, KickParticipantRequest, KickParticipantResponse}

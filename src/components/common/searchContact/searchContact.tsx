@@ -1,16 +1,56 @@
-import { SearchBar } from "../../../../../utils/searchbar/searchbar";
+import { SearchBar } from "../../../utils/searchbar/searchbar";
 import React, { useContext, useEffect, useState } from "react";
 
 import "./style.scss";
-import { AuthContext } from "../../../../../stores/AuthContext";
-import { searchContact } from "../../../../../utils/back/usersutils";
-import { NewConvo, storageUsers, userProfile } from "../../../../../utils/interfaces";
-import { ConversationsContext } from "../../../../../stores/ConversationsContext";
+import { AuthContext } from "../../../stores/AuthContext";
+import { searchContact } from "../../../utils/back/usersutils";
+import { NewConvo, storageUsers, userProfile } from "../../../utils/interfaces";
+import { ConversationsContext } from "../../../stores/ConversationsContext";
+import ContactsCard from "../contactsCard/ContactsCard";
 
-import { leaveBackdropProp, poblateContactsCard, poblateSelectedContactsCard } from "./common";
-import { CreateConversationContext } from "./CreateConversationContext";
+import { backdropProps } from "../../BackDrop/Backdrop";
 
-const SearchContactPrivate = ({turnbackdropoff}:leaveBackdropProp) => {
+import { searchcontactContext } from "./contactsContext";
+
+
+const poblateSelectedContactsCard= (key:number, user:userProfile, selectFunc: (arg0:userProfile)=>void, context: {select: storageUsers; setSelect: (arg0: storageUsers) => void;
+}):JSX.Element =>{
+    return (
+        <div className="GroupContactSelected">
+                {poblateContactsCard(key, user, selectFunc, undefined)}
+                <div className="GroupContactSelected__button" onClick={
+                    ()=>{
+                        let list_selected = context.select
+                        delete list_selected[user.uuid.uuid]
+                        context.setSelect(list_selected)
+                    }
+                }>X</div>
+        </div>
+    )
+}
+
+const poblateContactsCard = (key:number, user:userProfile, selectFunc: (arg0:userProfile)=>void, ignore:string[] | undefined):JSX.Element | null => {
+    if (ignore != undefined && ignore.length > 0){
+        if (ignore.includes(user.uuid.uuid)){
+            return null
+        }
+    }
+    return(<ContactsCard
+        key={key}
+        timeAgo={0}
+        name={user.first_name! + " " + user.last_name!}
+        lastMessage={user.phone}
+        profileImg={user.avatar_url!}
+        unread={0}
+        badges={[]}
+        selected=""
+        toggleSelected={()=>{
+            selectFunc(user)
+        }}
+        />)
+}
+
+const SearchContactPrivate = ({turnbackdropoff}:backdropProps) => {
     const AuthCtx = useContext(AuthContext)
     const ConvoCtx = useContext(ConversationsContext)
     const [search,setSearch] = useState<string>("");
@@ -64,7 +104,7 @@ const SearchContactPrivate = ({turnbackdropoff}:leaveBackdropProp) => {
 
 const SearchContactGroup = () => {
     const AuthCtx = useContext(AuthContext)
-    const SelectedCtx= useContext(CreateConversationContext)
+    const SelectedCtx= useContext(searchcontactContext)
     const [search,setSearch] = useState<string>("");
     const [contacts, setContacts] = useState<userProfile[]>([])
 
@@ -108,4 +148,5 @@ const SearchContactGroup = () => {
     )
 };
 
-export {SearchContactPrivate, SearchContactGroup};
+export {SearchContactPrivate, SearchContactGroup, poblateSelectedContactsCard,
+    poblateContactsCard};

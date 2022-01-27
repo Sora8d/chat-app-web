@@ -63,10 +63,22 @@ const AuthProvider = ({children}:propsInterface) => {
     }
     
     const [logged, setLogged] = useState<boolean>(auth_exists);
-    const [uuid, setUuid] = useState<uuid | undefined>(current_user_uuid);
-    const [access_token, setAccessToken] = useState<string | undefined>(current_access_token);
-    const [refresh_token, setRefreshToken] = useState<string | undefined>(current_refresh_token);
-    
+    const [uuid, setUuidState] = useState<uuid | undefined>(current_user_uuid);
+    const [access_token, setAccessTokenState] = useState<string | undefined>(current_access_token);
+    const [refresh_token, setRefreshTokenState] = useState<string | undefined>(current_refresh_token);
+    const setUuid = (arg1: uuid | undefined)=>{
+        setUuidState(arg1)
+        arg1 != undefined ? localStorage.setItem("uuid", arg1.uuid) : localStorage.removeItem("uuid");
+    }
+    const setAccessToken= (arg1: string | undefined) =>{
+        setAccessTokenState(arg1)
+        arg1 != undefined ? localStorage.setItem("accessToken", arg1) : localStorage.removeItem("accessToken");
+    }
+    const setRefreshToken= (arg1: string | undefined) =>{
+        setRefreshTokenState(arg1)
+        arg1 != undefined ? localStorage.setItem("refreshToken", arg1) : localStorage.removeItem("refreshToken");
+    }
+
     const [tokenIsRefreshing, setTokenIsRefreshing] = useState<boolean>(false)
     const [currentlyRecoveringToken, setCurrentlyRecoveringToken] = useState<boolean>(false)
 
@@ -74,7 +86,7 @@ const AuthProvider = ({children}:propsInterface) => {
         uuid, access_token, refresh_token
     }
     const setUserAuth={
-        setUuid, setAccessToken, setRefreshToken
+      setUuid, setAccessToken, setRefreshToken
     }
     //This is like a decorator for any back-utils that use tokens
     /*
@@ -140,4 +152,4 @@ const AuthProvider = ({children}:propsInterface) => {
         </AuthContext.Provider>
     )
 }
-export { AuthProvider, AuthContext }
+export { AuthProvider, AuthContext };

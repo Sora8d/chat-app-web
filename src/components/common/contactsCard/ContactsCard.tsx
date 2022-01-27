@@ -1,7 +1,7 @@
 import React from "react";
-import { contactsCardProps, conversationWParticipants, userProfile } from "../../../../utils/interfaces";
-import { TimeAgo } from "../../../../utils/timeAgoCalculator";
-import Avatar from "../../../common/Avatar/Avatar";
+import { contactsCardProps} from "../../../utils/interfaces";
+import { TimeAgo } from "../../../utils/timeAgoCalculator";
+import Avatar from "../../common/Avatar/Avatar";
 import "./contactsCard.scss";
 
 const ContactsCard: React.FC<contactsCardProps> = ({

@@ -2,6 +2,7 @@ import React from "react";
 import "./MembersCards.scss";
 import Avatar from "../../../common/Avatar/Avatar";
 import { userProfile } from "../../../../utils/interfaces";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 interface MemberCardProps {
   user: userProfile
@@ -23,4 +24,15 @@ const MembersCards= ({user, select}:MemberCardProps) => {
   );
 };
 
-export default MembersCards;
+const AddParticipantCard = ({select}:{select:() => void}) =>{
+  return (
+    <div className="MemberCard" onClick={select}>
+      <IoIosAddCircleOutline size={48}/>
+      <div className="MemberCard__InfoFlex">
+        <h5>Add Participant</h5>
+      </div>
+    </div>
+  );
+};
+
+export { MembersCards , AddParticipantCard};

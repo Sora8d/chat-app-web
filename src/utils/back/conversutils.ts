@@ -1,5 +1,5 @@
 import { objectInterface } from "../interfaces";
-import { UuidResponse, AuthInfo, SendMessageInterface, NewConversationInterface, uuid, getConversationsResponse, KickParticipantRequest, KickParticipantResponse, apiResponseFix } from "./request_interfaces";
+import { UuidResponse, AuthInfo, SendMessageInterface, NewConversationInterface, uuid, getConversationsResponse, KickParticipantRequest, KickParticipantResponse, apiResponseFix, getConversationResponseAllowUndefined } from "./request_interfaces";
 import { standardRequest, basic401Message } from "./common";
 import { CreateMessage } from "./chatutils";
 import { useContext } from "react";
@@ -16,7 +16,7 @@ const getConvers = async (userinfo:AuthInfo): Promise<getConversationsResponse> 
     { method: "GET",
     headers: standardRequest(userinfo.access_token)}
   );
-  const jn: getConversationsResponse= await data.json();
+  const jn: getConversationResponseAllowUndefined= await data.json();
 //This is just for testing
   if (jn.data == null) {
     jn.data = []
@@ -25,8 +25,11 @@ const getConvers = async (userinfo:AuthInfo): Promise<getConversationsResponse> 
     if (element.conversation.name === undefined){
       element.conversation.name = "TEST";
     };
+    if (element.participants === undefined) {
+      element.participants = []
+    }
   });
-  return jn;
+  return jn as getConversationsResponse;
 };
 
 const createConversRequest = async (userinfo:AuthInfo, text: string, type: number, participants: uuid[], name?:string, avatar_url?:string) => {

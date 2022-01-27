@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MembersCards, AddParticipantCard } from "./components/MembersCards";
+import { MembersCards } from "./components/MembersCards";
 import "./directorySection.scss";
 import "./components/ProfileCard/ProfileCard.scss"
 import { HiDotsVertical } from "react-icons/hi";
 import FilesCard from "./components/FilesCard";
 import { ConversationsContext } from "../../stores/ConversationsContext";
-import { storageUsers, userConversation, userProfile } from "../../utils/interfaces";
+import { userConversation, userProfile } from "../../utils/interfaces";
 import { ProfileSection } from "./components/ProfileCard";
 import BackDrop from "../BackDrop/Backdrop";
 import { IoIosArrowBack } from "react-icons/io";
-import { SearchContactGroup } from "../common/searchContact/searchContact";
-import { searchcontactContext, SearchContactProvider } from "../common/searchContact/contactsContext";
 
 type DirectoryProps = {
   isDirectoryButton: boolean
@@ -23,17 +21,16 @@ function DirectorySection({isDirectoryButton}:DirectoryProps) {
     if (ConvoCtx.selected?.participants != undefined) {
       setParticipants(ConvoCtx.selected?.participants)
     }
-  }, [ConvoCtx.selected, ConvoCtx.selected?.participants])
+  }, [ConvoCtx.selected])
   const [userSelect, setUserSelect] = useState<userConversation | null>(null)
 
   const [displayDirectory, setDisplayDirectory] = useState<boolean>(false)
   
 
   const TeamMembers = () => {
-    const [isAddParticipant, setIsAddParticipant] = useState<boolean>(false)
+    const [IsAddParticipant, setIsAddParticipant] =useState<boolean>(false)
     return (
     <div className="DirectoryCont__main">
-    {isAddParticipant && <SearchContactGroup/>}
     <div className="DirectoryCont__main__flex">
     <h4>Team Members</h4>
     <div>{participants.length}</div>
@@ -46,11 +43,9 @@ function DirectorySection({isDirectoryButton}:DirectoryProps) {
         };
         return <MembersCards user={user} select={SelectMember}/>
       })}
-      {!(ConvoCtx.selected?.private) && <AddParticipantCard select={()=>{setIsAddParticipant(true)}}/>}
     </div>
   </div>)
   };
-
   const profileCard = (selectedProfile: userConversation) => {
     const DeselectMember = () => {
       setUserSelect(null)
@@ -70,10 +65,8 @@ function DirectorySection({isDirectoryButton}:DirectoryProps) {
         <HiDotsVertical className="DirectoryCont__head__more__icon" />
       </button>
     </div>
-    {userSelect == null ? (<SearchContactProvider>
-    <TeamMembers/> 
-    </SearchContactProvider>)
-    : profileCard(userSelect) }
+    {userSelect == null ? <TeamMembers/> : profileCard(userSelect) }
+
     <div className="DirectoryCont__main">
       <div className="DirectoryCont__main__flex">
         <h4>Media</h4>

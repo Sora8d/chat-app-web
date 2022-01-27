@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./MessageSection.scss";
 import { BsChevronDown } from "react-icons/bs";
-import ContactsCard from "./components/ContactsCard/ContactsCard";
+import ContactsCard from "../common/contactsCard/ContactsCard";
 import { ConversationsContext } from "../../stores/ConversationsContext";
 import { PrivateConvo, GroupConvo, objectInterface, conversationWParticipants, userProfile, storageUsers } from "../../utils/interfaces";
 import { AuthContext } from "../../stores/AuthContext";
 import { SearchBar } from "../../utils/searchbar/searchbar";
 import { CreateConversation } from "./components/CreateConversation/CreateConversation";
 import BackDrop from "../BackDrop/Backdrop";
+import { SearchContactProvider } from "../common/searchContact/contactsContext";
 
 const MessageSection: React.FC = () => {
   const objeto = useContext(ConversationsContext);
@@ -81,7 +82,10 @@ const MessageSection: React.FC = () => {
         </div>
         <button className="messages__header__plusButton" onClick={() => {setCreateConvoModal(true)}}>+</button>
       </div>
-      {createConversationModal && <CreateConversation turnbackdropoff={()=>{setCreateConvoModal(false)}}/>}
+      {createConversationModal && <SearchContactProvider>
+      <CreateConversation turnbackdropoff={()=>{setCreateConvoModal(false)}}/>
+      </SearchContactProvider>
+      }
       {createConversationModal && <BackDrop turnbackdropoff={()=>{setCreateConvoModal(false)}}/>}
       <SearchBar handleSearchChange={handleSearchChange} message={"Search messages"}/>
       <div className="messages__container">

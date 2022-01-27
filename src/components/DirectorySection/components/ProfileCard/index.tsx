@@ -33,7 +33,9 @@ const ProfileSection = ({user, deselect}:ProfProp) => {
             </div>
             <div>
                 {!(selected?.private) && (<div className="ProfileCard__kick" onClick={() => {
-                    AuthCtx.requestsManager<undefined>(kickParticipantRequest, {user_conversation: user.uuid, conversation: selected?.conversation.uuid})}}>
+                    AuthCtx.requestsManager<undefined>(kickParticipantRequest, {user_conversation: user.uuid, conversation: selected?.conversation.uuid})
+                    deselect()
+                    }}>
                     <IoIosClose size={30} color="rgb(206, 84, 84)"/>
                     <p>Kick User</p>
                 </div>)}

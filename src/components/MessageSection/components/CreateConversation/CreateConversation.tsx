@@ -7,19 +7,19 @@ import { IoIosPeople, IoIosPerson } from "react-icons/io";
 
 import { CreateConversationContext } from "./components/CreateConversationContext";
 import { leaveBackdropProp } from "./components/common";
-import { SearchContactGroup, SearchContactPrivate } from "./components/searchContact";
+import { SearchContactGroup, SearchContactPrivate } from "../../../common/searchContact/searchContact";
 import { GroupConversationForm } from "./components/GroupConversationForm";
 import { createConversRequest } from "../../../../utils/back/conversutils";
 import { AuthContext } from "../../../../stores/AuthContext";
-import { ConversationsContext, ConversationsProvider } from "../../../../stores/ConversationsContext";
+import { ConversationsContext } from "../../../../stores/ConversationsContext";
+import {searchcontactContext}  from "../../../common/searchContact/contactsContext";
 
 
 const CreateConversationWrapper = ({turnbackdropoff}:leaveBackdropProp) =>{
-    const [select, setSelect] = useState<storageUsers>({})
     const [step, setStep] = useState<number>(0)
     const [error, setError] = useState<newError | null>(null)
     return (
-    <CreateConversationContext.Provider value={{select, setSelect, step, setStep, error, setError}}>
+    <CreateConversationContext.Provider value={{step, setStep, error, setError}}>
     <CreateConversation turnbackdropoff={turnbackdropoff}/>
     </CreateConversationContext.Provider>
     )
@@ -28,6 +28,7 @@ const CreateConversationWrapper = ({turnbackdropoff}:leaveBackdropProp) =>{
 
 const CreateConversation = ({turnbackdropoff}:leaveBackdropProp) =>{
     const [isPrivate, setIsPrivate] = useState<boolean>(true)
+    const selectedContactsCtx = useContext(searchcontactContext)
     const CreateConvoCtx = useContext(CreateConversationContext)
     const ConvoCtx= useContext(ConversationsContext)
     const AuthCtx = useContext(AuthContext)
@@ -41,7 +42,7 @@ const CreateConversation = ({turnbackdropoff}:leaveBackdropProp) =>{
         }
         let participants: uuid[] = []
         participants.push(AuthCtx.userInfo.uuid!)
-        Object.entries(CreateConvoCtx.select).forEach((participant) => {participants.push(participant[1].uuid)})
+        Object.entries(selectedContactsCtx.select).forEach((participant) => {participants.push(participant[1].uuid)})
         const promise_uuid = AuthCtx.requestsManager<any>(createConversRequest,"Welcome to "+name, 0, participants, name, image)
         const asyncSetAwaitUuid = async () => {
             const uuid = await promise_uuid
