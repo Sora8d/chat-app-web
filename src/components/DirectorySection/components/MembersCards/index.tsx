@@ -24,15 +24,5 @@ const MembersCards= ({user, select}:MemberCardProps) => {
   );
 };
 
-const AddParticipantCard = ({select}:{select:() => void}) =>{
-  return (
-    <div className="MemberCard" onClick={select}>
-      <IoIosAddCircleOutline size={48}/>
-      <div className="MemberCard__InfoFlex">
-        <h5>Add Participant</h5>
-      </div>
-    </div>
-  );
-};
 
-export { MembersCards , AddParticipantCard};
+export { MembersCards };

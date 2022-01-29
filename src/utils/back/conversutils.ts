@@ -1,5 +1,5 @@
 import { objectInterface } from "../interfaces";
-import { UuidResponse, AuthInfo, SendMessageInterface, NewConversationInterface, uuid, getConversationsResponse, KickParticipantRequest, KickParticipantResponse, apiResponseFix, getConversationResponseAllowUndefined } from "./request_interfaces";
+import { UuidResponse, AuthInfo, SendMessageInterface, NewConversationInterface, uuid, getConversationsResponse, KickParticipantRequest, KickParticipantResponse, apiResponseFix, getConversationResponseAllowUndefined, AddParticipantResponse, AddParticipantRequest } from "./request_interfaces";
 import { standardRequest, basic401Message } from "./common";
 import { CreateMessage } from "./chatutils";
 import { useContext } from "react";
@@ -50,6 +50,16 @@ const createConversRequest = async (userinfo:AuthInfo, text: string, type: numbe
   return jn
   };
 
+const addParticipantRequest = async(userinfo: AuthInfo, body:AddParticipantRequest):Promise<AddParticipantResponse> =>{
+  const data = await fetch("http://localhost:7999/conversation/add_user", {
+    method: "POST",
+    headers: standardRequest(userinfo.access_token),
+    body: JSON.stringify(body)
+  })
+  const jn: apiResponseFix = await data.json()
+  return {data: undefined, response: jn}
+}
+
 const kickParticipantRequest = async(userinfo: AuthInfo, body:KickParticipantRequest):Promise<KickParticipantResponse> => {
   const data = await fetch("http://localhost:7999/conversation/kick_user", {
     method: "POST",
@@ -84,4 +94,4 @@ const randomNum = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export { getConvers, createConversRequest, kickParticipantRequest,randomNum };
+export { getConvers, createConversRequest, addParticipantRequest, kickParticipantRequest,randomNum };

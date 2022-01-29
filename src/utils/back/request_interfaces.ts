@@ -70,6 +70,11 @@ interface RegisterProp {
   }
 }
 
+interface AddParticipantRequest{
+  conversation_uuid: uuid,
+  user_conversations: userConversation[]
+}
+
 interface KickParticipantRequest{
   user_conversation: uuid,
   conversation: uuid
@@ -96,6 +101,8 @@ type getUserProfilesResponse = requestManagerProp<userProfile[]>
 
 type getStorageUsersResponse = requestManagerProp<storageUsers>
 
+type AddParticipantResponse = requestManagerProp<undefined>
+
 type KickParticipantResponse = requestManagerProp<undefined>
 
-export type {UuidResponse, SendMessageInterface, AuthLoginResponse as AuthInfoInterface, AuthInfo, uuid, apiResponse, apiResponseFix, AuthRegisterResponse,LoginProp, RegisterProp, NewConversationInterface, requestManagerProp, getMessagesResponse, getConversationsResponse, getConversationResponseAllowUndefined, getUserProfilesResponse, getStorageUsersResponse, KickParticipantRequest, KickParticipantResponse}
+export type {UuidResponse, SendMessageInterface, AuthLoginResponse as AuthInfoInterface, AuthInfo, uuid, apiResponse, apiResponseFix, AuthRegisterResponse,LoginProp, RegisterProp, NewConversationInterface, requestManagerProp, getMessagesResponse, getConversationsResponse, getConversationResponseAllowUndefined, getUserProfilesResponse, getStorageUsersResponse, KickParticipantRequest, KickParticipantResponse, AddParticipantResponse, AddParticipantRequest}

@@ -17,6 +17,7 @@ const SearchContactProvider = ({children}:childrenProp) => {
     const [select, setSelect] = useState<storageUsers>({})
     return (
         <searchcontactContext.Provider value={{select, setSelect}}>
+            {children}
         </searchcontactContext.Provider>
     )
 }

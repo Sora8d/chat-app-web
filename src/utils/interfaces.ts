@@ -36,6 +36,20 @@ const CreateDummyUserProfile = (par0: {
     }
 }
 
+const CreateDummyUserConversation= (par0: {
+  uuid?: string,
+  user_uuid?: string,
+  last_access_uuid?: string,
+  created_at?: number
+}):userConversation =>{
+  return {
+    uuid: (par0.uuid != undefined) ? {uuid: par0.uuid} : null_uuid,
+    user_uuid: (par0.user_uuid != undefined) ? {uuid: par0.user_uuid} : null_uuid,
+    last_access_uuid: (par0.last_access_uuid != undefined) ? {uuid: par0.last_access_uuid} : null_uuid,
+    created_at: (par0.created_at != undefined) ? par0.created_at : 0
+  }
+}
+
 interface userProfile{
   uuid: uuid,
   phone: string,
@@ -129,5 +143,5 @@ interface newError {
   message: string
 }
 
-export {null_uuid_string,null_uuid,CreateDummyUserProfile}
+export {null_uuid_string,null_uuid,CreateDummyUserProfile,CreateDummyUserConversation}
 export type {  NewConvo,storageUsers,PrivateConvo, conversation, userConversation, GroupConvo, objectInterface, contactsCardProps, conversationWParticipants, uuid, message, userProfile, newError };
