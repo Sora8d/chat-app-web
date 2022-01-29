@@ -24,9 +24,17 @@ const NewParticipantsSearchContacts = () =>{
   const SelectedCtx = useContext(searchcontactContext)
   const ConvoCtx = useContext(ConversationsContext)
   const AuthCtx = useContext(AuthContext)
+  let exclude_strings = (()=> {
+    let uuids: string[] = []
+    ConvoCtx.selected?.participants.forEach((userconvo)=>{
+      uuids.push(userconvo.user_uuid.uuid)
+    }
+    )
+    return uuids
+  })()
     return (
         <div className="addParticipantContacts">
-            <SearchContactGroup/>
+            <SearchContactGroup excluding={exclude_strings}/>
             <div className="addParticipantContacts__button" onClick={()=>{
               const create_users_list = ():userConversation[] =>{
                 let userconvos: userConversation[] = []

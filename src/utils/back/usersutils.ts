@@ -34,13 +34,17 @@ const getUsers= async (userinfo:AuthInfo,users:uuid[]):Promise<getStorageUsersRe
     return { data: new_users_storage, response: jn.response }
 };
 
-const searchContact = async (userinfo:AuthInfo, query:string):Promise<getUserProfilesResponse>=>{
+const searchContact = async (userinfo:AuthInfo, query:string, exclude:string[]):Promise<getUserProfilesResponse>=>{
 
     if (userinfo.access_token == undefined || userinfo.uuid == undefined || query.trim() == ""){
         return basic401Message<never[]>([])
     }
     let url = 'http://localhost:7999/search?query='+query
-
+    if (exclude.length > 0) {
+        exclude.forEach((uuid)=>{
+            url += "&ex_uuid="+uuid
+        })
+    }
     const data = await fetch(
         url,
         {

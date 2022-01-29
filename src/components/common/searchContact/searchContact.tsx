@@ -102,11 +102,16 @@ const SearchContactPrivate = ({turnbackdropoff}:backdropProps) => {
     )
 };
 
-const SearchContactGroup = () => {
+type searchContactGroupProps = {
+    excluding: string[]
+}
+
+const SearchContactGroup = ({excluding}:searchContactGroupProps) => {
     const AuthCtx = useContext(AuthContext)
     const SelectedCtx= useContext(searchcontactContext)
     const [search,setSearch] = useState<string>("");
     const [contacts, setContacts] = useState<userProfile[]>([])
+    const ignoreForKnownUsers = Object.keys(SelectedCtx.select).concat(excluding)
 
     let known_users: storageUsers = {}
     const users_string = localStorage.getItem("users") 
@@ -127,7 +132,7 @@ const SearchContactGroup = () => {
 
     useEffect(()=>{
         const func = async () => {
-            setContacts(await AuthCtx.requestsManager<userProfile[]>(searchContact, search))
+            setContacts(await AuthCtx.requestsManager<userProfile[]>(searchContact, search, excluding))
         }
         func()
     }, [search])
@@ -142,7 +147,7 @@ const SearchContactGroup = () => {
             }) : <div className="SearchContact__NoUsers"><p>No users.</p></div>}
             <div className="SearchContact__KnownUsers"/>
             {Object.entries(known_users).map((contact, i) =>{
-                  return poblateContactsCard(i, contact[1], select, Object.keys(SelectedCtx.select))
+                  return poblateContactsCard(i, contact[1], select, ignoreForKnownUsers)
             })}
         </div>
     )

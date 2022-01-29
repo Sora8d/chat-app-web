@@ -84,7 +84,7 @@ const CreateConversation = ({turnbackdropoff}:leaveBackdropProp) =>{
 const renderSwitch = (step:number,isPrivate: boolean, turnbackdropoff: ()=>void) =>{
     switch(step) {
         case 0:
-            return isPrivate ? <SearchContactPrivate turnbackdropoff={turnbackdropoff}/> : <SearchContactGroup/>
+            return isPrivate ? <SearchContactPrivate turnbackdropoff={turnbackdropoff}/> : <SearchContactGroup excluding={[]}/>
         case 1:
             return <GroupConversationForm/>            
     }
