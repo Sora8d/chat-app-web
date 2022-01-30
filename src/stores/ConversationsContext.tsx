@@ -26,7 +26,16 @@ const ConversationsContext = React.createContext<{
 const ConversationsProvider: React.FC<propsInterface> = ({ children }) => {
   const [users, setUsers] = useState<storageUsers>({});
   const [conversations, setConversations] = useState<(PrivateConvo | GroupConvo)[]>([]);
-  const [selected, setSelected] = useState<PrivateConvo | GroupConvo | NewConvo | undefined>();
+  const [selected, setSelectedState] = useState<PrivateConvo | GroupConvo | NewConvo | undefined>();
+  const selectedRef = useRef<string>("") //selectedRef is used in the short_poll to update the SelectedConversation, thx to state only changing in re-render the function doesnt check the correct conversation, so it reverts back to the previous selected convo.
+  const setSelected = (arg0: PrivateConvo | GroupConvo | NewConvo | undefined)=>{
+    if (arg0 != undefined){
+      selectedRef.current = arg0.conversation.uuid.uuid
+    } else {
+      selectedRef.current = ""
+    }
+    setSelectedState(arg0)
+  }
   const AuthCtx = useContext(AuthContext)
   const authInfo = AuthCtx.userInfo
   let logged = AuthCtx.logged
@@ -56,7 +65,7 @@ const ConversationsProvider: React.FC<propsInterface> = ({ children }) => {
             transform_convo = {...conver, private:false} as GroupConvo
             classified_convos.push(transform_convo)
           }
-          if (selected != undefined && selected?.conversation.uuid.uuid == transform_convo.conversation.uuid.uuid) {
+          if (selected != undefined && selectedRef.current == transform_convo.conversation.uuid.uuid) {
             setSelected(transform_convo)
           }
         })
