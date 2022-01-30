@@ -48,12 +48,16 @@ const ConversationsProvider: React.FC<propsInterface> = ({ children }) => {
               unknown_users.push(user.user_uuid)
             }
           })
+          let transform_convo: PrivateConvo | GroupConvo
           if (conver.conversation.type == 1) {
-            let transform_convo: PrivateConvo = {...conver, private:true}
+            transform_convo = {...conver, private:true} as PrivateConvo
             classified_convos.push(transform_convo)
           } else {
-            let transform_convo: GroupConvo = {...conver, private:false}
+            transform_convo = {...conver, private:false} as GroupConvo
             classified_convos.push(transform_convo)
+          }
+          if (selected != undefined && selected?.conversation.uuid.uuid == transform_convo.conversation.uuid.uuid) {
+            setSelected(transform_convo)
           }
         })
 
