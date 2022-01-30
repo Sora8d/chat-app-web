@@ -35,7 +35,7 @@ const NewParticipantsSearchContacts = ({turnbackdropoff}:backdropProps) =>{
   })()
     return (
         <div className="addParticipantContacts">
-            <SearchContactGroup excluding={exclude_strings}/>
+            <SearchContactGroup excluding={exclude_strings} clearOnUnmount={true}/>
             <div className="addParticipantContacts__button" onClick={()=>{
               const create_users_list = ():userConversation[] =>{
                 let userconvos: userConversation[] = []

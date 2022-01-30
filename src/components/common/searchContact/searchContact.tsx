@@ -104,9 +104,10 @@ const SearchContactPrivate = ({turnbackdropoff}:backdropProps) => {
 
 type searchContactGroupProps = {
     excluding: string[]
+    clearOnUnmount: boolean
 }
 
-const SearchContactGroup = ({excluding}:searchContactGroupProps) => {
+const SearchContactGroup = ({excluding, clearOnUnmount}:searchContactGroupProps) => {
     const AuthCtx = useContext(AuthContext)
     const SelectedCtx= useContext(searchcontactContext)
     const [search,setSearch] = useState<string>("");
@@ -136,6 +137,14 @@ const SearchContactGroup = ({excluding}:searchContactGroupProps) => {
         }
         func()
     }, [search])
+
+    if (clearOnUnmount) {
+        useEffect(()=>{
+            return (()=>{
+                SelectedCtx.setSelect({})
+            })()
+        }, [])
+    }
     return (
         <div className="SearchContact" >
             <SearchBar message="Search contact" handleSearchChange={handleSearchChange} />    
