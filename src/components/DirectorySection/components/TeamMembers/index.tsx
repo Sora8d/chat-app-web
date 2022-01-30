@@ -17,10 +17,14 @@ const TeamMembers = ({userSelect}:{userSelect:(arg0: userConversation|null)=>voi
     const [participants, setParticipants] = useState<userConversation[]>([])
 
     const [isAddParticipant, setIsAddParticipant] = useState<boolean>(false)
+
+    const turnbackdropoff = () => {
+      setIsAddParticipant(false)
+    }
     return (
     <div className="DirectoryCont__main">
-    {isAddParticipant && <NewParticipantsSearchContacts/>}
-    {isAddParticipant && <BackDrop turnbackdropoff={()=>{setIsAddParticipant(false)}}/>}
+    {isAddParticipant && <NewParticipantsSearchContacts turnbackdropoff={turnbackdropoff}/>}
+    {isAddParticipant && <BackDrop turnbackdropoff={turnbackdropoff}/>}
     <div className="DirectoryCont__main__flex">
     <h4>Team Members</h4>
     <div>{participants.length}</div>

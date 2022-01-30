@@ -4,6 +4,7 @@ import { AuthContext } from "../../../../stores/AuthContext";
 import { ConversationsContext } from "../../../../stores/ConversationsContext";
 import { addParticipantRequest } from "../../../../utils/back/conversutils";
 import { CreateDummyUserConversation, userConversation } from "../../../../utils/interfaces";
+import { backdropProps } from "../../../BackDrop/Backdrop";
 import { searchcontactContext } from "../../../common/searchContact/contactsContext";
 import { SearchContactGroup } from "../../../common/searchContact/searchContact";
 
@@ -20,7 +21,7 @@ const AddParticipantCard = ({select}:{select:() => void}) =>{
     );
   };
 
-const NewParticipantsSearchContacts = () =>{
+const NewParticipantsSearchContacts = ({turnbackdropoff}:backdropProps) =>{
   const SelectedCtx = useContext(searchcontactContext)
   const ConvoCtx = useContext(ConversationsContext)
   const AuthCtx = useContext(AuthContext)
@@ -45,6 +46,7 @@ const NewParticipantsSearchContacts = () =>{
                 return userconvos
               }
               AuthCtx.requestsManager<undefined>(addParticipantRequest, {conversation_uuid: ConvoCtx.selected?.conversation.uuid!, user_conversations: create_users_list()})
+              turnbackdropoff()
             }}></div>
         </div>
     )
